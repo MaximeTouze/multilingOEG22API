@@ -1,0 +1,56 @@
+<html>
+  <head>
+    <meta charset="UTF-8">
+    <title>Record</title>
+
+
+
+    <!-- Stylesheets -->
+  </head>
+  <body>
+    Generation du word cloud
+    <form action="/update" method="POST">
+                <label for="text"> Text : </label> <br>
+                <textarea rows="20" cols="60" id="text" name="text"> </textarea>
+                <br>
+                <label for="text"> Language : </label> <br>
+                <select name="lang">
+                   <option valeur="fr">fr</option>
+                   <option valeur="eng">eng</option>
+                   <option valeur="ara">ara</option>
+                   <option valeur="esp">esp</option>
+                </input>
+                <br>
+                <input type="submit" value="Update">
+            </form>
+
+    Traduction
+    <textarea rows="20" cols="60" id="text_to_translate" name="text_to_translate"> </textarea>
+    <input type="submit" value="Translate" onclick="my_translate()">
+  </body>
+
+  <footer>
+    <script type="text/javascript" src="https://code.jquery.com/jquery-3.5.1.js"></script>
+
+    <script type="text/javascript">
+      const my_translate = function () {
+        $.ajax({
+          type:'POST',
+          url:'/translate',
+          data:{
+            text:text_to_translate.value
+          },
+          success:function()
+          {
+            console.log("transmis pour la trad ::: "+ text_to_translate.value);
+          }
+        });
+        console.log(text_to_translate.value);
+      }
+    </script>
+
+    <!--<script type="text/javascript" src="{{ url_for('static',filename='js/recording.js') }}"></script>
+    <script type="text/javascript" src="{{ url_for('static',filename='js/librairies/dist/recorder.js') }}"></script>
+  -->
+</footer>
+</html>

@@ -1,0 +1,9 @@
+*__pycache__
+mykey.txt
+/test.html
+*env/*
+*TODO*
+*note*
+*.wav
+*/credentials/*.json
+*.wsgi

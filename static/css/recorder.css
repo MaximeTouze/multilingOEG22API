@@ -1,0 +1,9 @@
+.grid-column-presenting {
+  display: grid;
+  grid-template-columns: 70% 30%;
+  height: 100%;
+}
+
+.like-details {
+  color: green;
+}

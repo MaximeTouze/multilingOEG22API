@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+
+<html>
+  <head>
+    <meta charset="UTF-8">
+    <meta http-equiv="expires" content="0">
+    <meta http-equiv="pragma" content="no-cache">
+    <meta http-equiv="cache-control" content="no-cache, must-revalidate">
+
+    <title>Recorder Look</title>
+
+    <!-- Stylesheets -->
+    <link rel= "stylesheet" type= "text/css" href= "{{ url_for('static',filename='css/recorder.css') }}">
+    <link rel= "stylesheet" type= "text/css" href= "{{ url_for('static',filename='css/common.css') }}">
+
+  </head>
+
+
+  <body style="background:#2C2D3A">
+    <div id="grid-container" class="grid-container">
+      <div class="grid-column-presenting">
+        <div id = "displayPanel" class="cell basic_color_cell">
+          display part
+        </div>
+
+        <div id="param-cell" class="cell basic_color_cell">
+          Spoken language slection :
+          <select name="lang">
+             <option valeur="eng">eng</option>
+             <option valeur="fr">fr</option>
+             <option valeur="ara">ara</option>
+             <option valeur="esp">esp</option>
+          </select>
+          Room slection :
+          <select name="room">
+             <option valeur="1">1</option>
+             <option valeur="2">2</option>
+             <option valeur="3">3</option>
+          </select>
+          <button type="button" name="to_confrence" onclick="StartConfrence();">Start confrence</button>
+        </div>
+
+      </div>
+    </div>
+  </body>
+
+  <footer>
+  	<script type="text/javascript" src="https://code.jquery.com/jquery-3.5.1.js"></script>
+    <!-- Scripts (ordre important) -->
+    <script src="../static/js/librairies/Recorderjs/dist/recorder.js"></script>
+    <script type="text/javascript" src="{{ url_for('static',filename='js/recorderApplication.js') }}"></script>
+    <script type="text/javascript" src="{{ url_for('static',filename='js/init.js') }}"></script>
+    <script type="text/javascript" src="{{ url_for('static',filename='js/display_generators.js') }}"></script>
+    <script type="text/javascript" src="{{ url_for('static',filename='js/display_updator/display_updator_values.js') }}"></script>
+    <script type="text/javascript" src="{{ url_for('static',filename='js/display_updator/display_updator_source.js') }}"></script>
+    <script type="text/javascript" src="{{ url_for('static',filename='js/display_updator/display_updator_common.js') }}"></script>
+    <script type="text/javascript" src="{{ url_for('static',filename='js/recorder-working.js') }}"></script>
+    <script type="text/javascript" src="{{ url_for('static',filename='js/tools/display_tools.js') }}"></script>
+    <script type="text/javascript" src="{{ url_for('static',filename='js/tools/recorder_forms.js') }}"></script>
+
+
+  </footer>
+</html>
