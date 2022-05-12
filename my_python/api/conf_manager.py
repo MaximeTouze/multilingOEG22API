@@ -1,7 +1,6 @@
 # Manage conf status
 
 from my_python.manager.cache_data_manager import initDisplayed_sentences_room, resetCache_room
-from my_python.api.likeSystem import initLikeSystem
 
 
 # Consts
@@ -20,7 +19,6 @@ def getConfStaus(room):
 def startConf(room, lang):
     confrence_status[room] = CONFRENCE_ON
     confrence_lang[room] = lang
-    initLikeSystem(room)
     initDisplayed_sentences_room(room)
     return
 

@@ -1,8 +1,8 @@
 
-const ENGLISH = "en-US";
-const FRENCH = "fr-FR";
-const SPANISH = "es-ES";
-const ARABIAN = "ar-DZ";
+const ENGLISH = "eng";
+const FRENCH = "fr";
+const SPANISH = "esp";
+const ARABIAN = "ara";
 // https://cloud.google.com/speech-to-text/docs/languages
 
 // Images extentions
@@ -28,3 +28,7 @@ let selected_display = WORD_CLOUD;
 let compteur = 0;
 // A boolean which permise to continue the update of the display
 let continueUpdate = true;
+
+// the link to the API back-end
+const API_BACKEND_LINK = "http://127.0.0.1:88/static/exposed/"
+//const API_BACKEND_LINK = "https://multiling-oeg.univ-nantes.fr/static/exposed"

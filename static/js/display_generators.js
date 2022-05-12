@@ -12,6 +12,10 @@ const GenerateImg = function (path, alt, style="", onclick=null, id=null) {
   return img + "'>";
 }
 
+const GenerateDistantImg = function (name, style="weight:100%; height:100%", onclick=null, id=null) {
+  return GenerateImg(API_BACKEND_LINK + name, name, style=style, onclick=onclick, id);
+}
+
 const GenerateExposedImg = function (name, style="weight:100%; height:100%", onclick=null, id=null) {
   return GenerateImg("../static/exposed/" + name, name, style=style, onclick=onclick, id);
 }

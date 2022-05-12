@@ -5,6 +5,7 @@ import json
 import js2py
 import re
 import os as os
+import requests
 
 
 import my_python.word_cloud_generation.word_cloud_generation as word_cloud_generation
@@ -12,8 +13,10 @@ import my_python.transcription.transcription as transcription
 import my_python.translation.translation as translation
 import my_python.api.conf_manager as ConfManager
 import my_python.manager.cache_data_manager as CacheDataManager
-import my_python.api.likeSystem as likeSystem
+import my_python.const.lang_const as LangConst
 
+API_BACKEND_LINK = "http://127.0.0.1:88"
+#API_BACKEND_LINK = "https://multiling-oeg.univ-nantes.fr/"
 
 app = Flask(__name__, template_folder='templates')
 app.debug = True
@@ -22,10 +25,6 @@ app.debug = True
 #app.run(ssl_context="adhoc")
 
 ## The app's html view ::
-
-@app.route('/view')
-def view():
-    return render_template('view.html')
 
 @app.route('/record')
 def record():
@@ -93,7 +92,7 @@ def updateSound2():
     print('============ Recording getted ===========')
     # Don t forgot to close
     file.close()
-    (trans, time) = transcription.process_wav_google_cloud(file_path, language="en-US", target="test")
+    (trans, time) = transcription.process_wav_google_cloud(file_path, language=LangConst.LANGUAGES_MATCHER[lang][LangConst.TRANS], target=LangConst.LANGUAGES_MATCHER[lang][LangConst.TRAD])
     print(trans)
     print(type(trans))
     sentences = trans.split('\n')
@@ -103,10 +102,11 @@ def updateSound2():
         CacheDataManager.removeExcess(room, language)
 
     # For each other language than the spoken one
-    for lang in LANGUAGES:
+    for language in LANGUAGES:
 
         # traduction for each language except the spoken one
         if (lang != language):
+            trad_lang = LangConst.LANGUAGES_MATCHER[language][TRAD]
             # For each sentence
             for sentence in sentences:
                 # translate & add the sentence to the displayed_sentences list
@@ -161,7 +161,7 @@ def UnlikeSentence():
 @app.route("/mostly_liked_sentences", methods=['GET'])
 def Mostly_liked_sentences_api():
     room = int(request.args.get('room'))
-    return likeSystem.Mostly_liked_sentences(room)
+    return requests.post(API_BACKEND_LINK, data = request)
 
 @app.route("/startConf", methods=['POST'])
 def startConf():
