@@ -96,26 +96,26 @@ def updateSound2():
     print(trans)
     print(type(trans))
     sentences = trans.split('\n')
-    CacheDataManager.addDisplayed_sentences_room_language(room, language, sentences)
-
+    CacheDataManager.addDisplayed_sentences_room_language(room, lang, sentences)
+    # remove excess from sound cache
     if (len(sentences) >= 2):
-        CacheDataManager.removeExcess(room, language)
+        CacheDataManager.removeExcess(room)
 
     # For each other language than the spoken one
-    for language in LANGUAGES:
+    for language in LangConst.LANGUAGES:
 
         # traduction for each language except the spoken one
         if (lang != language):
-            trad_lang = LangConst.LANGUAGES_MATCHER[language][TRAD]
+            trad_lang = LangConst.LANGUAGES_MATCHER[language][LangConst.TRAD]
             # For each sentence
             for sentence in sentences:
                 # translate & add the sentence to the displayed_sentences list
                 trad_sentence = GoogleTranslator(source='auto').translate(sentence)
                 addDisplayed_sentences_room_language(room, lang, trad_sentence)
-                getCloudFromTextAndLanguage(trad_sentence, lang, room)
+                word_cloud_generation.getCloudFromTextAndLanguage(trad_sentence, lang, room)
         else :
             for sentence in sentences:
-                getCloudFromTextAndLanguage(trad_sentence, lang, room)
+                word_cloud_generation.getCloudFromTextAndLanguage(sentence, lang, room)
 
     #word_cloud_generation.getCloudFromTextAndLanguage(text, language)
     return render_template('test.html')
