@@ -24,6 +24,5 @@ TRAD = "trad"
 
 LANGUAGES_MATCHER = {}
 
-for i in range (0, len(TRAD_LANGUAGES) -1, 1):
+for i in range (0, len(TRAD_LANGUAGES), 1):
     LANGUAGES_MATCHER[LANGUAGES[i]] = {TRANS : TRANS_LANGUAGES[i], TRAD : TRAD_LANGUAGES[i]}
-    print(LANGUAGES_MATCHER)

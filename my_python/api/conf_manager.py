@@ -33,5 +33,4 @@ def endConf(room):
     return
 
 def getLangFromRoom(room):
-    print(confrence_lang, room)
     return confrence_lang[room]

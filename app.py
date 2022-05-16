@@ -14,6 +14,7 @@ import my_python.translation.translation as translation
 import my_python.api.conf_manager as ConfManager
 import my_python.manager.cache_data_manager as CacheDataManager
 import my_python.const.lang_const as LangConst
+from deep_translator import GoogleTranslator
 
 API_BACKEND_LINK = "http://127.0.0.1:88"
 #API_BACKEND_LINK = "https://multiling-oeg.univ-nantes.fr/"
@@ -48,21 +49,32 @@ def update():
     word_cloud_generation.getCloudFromTextAndLanguage(text, language)
     return render_template('record.html')
 
+
+
+
 @app.route("/updateSound2", methods=['POST'])
 def updateSound2():
     #print('called', request.form)
+
     audioBuffer = request.form.get('audioBuffer')
     room = int(request.form.get('room'))
     lang = ConfManager.getLangFromRoom(room)
 
+    file_path = "static/temp/current.wav"
 
-    if os.path.exists("current.wav"):
-        os.remove("current.wav")
+    if os.path.exists(file_path):
+        try:
+            os.remove(file_path)
+        except PermissionError as e:
+            CacheDataManager.addSoundMemory(room, audioBuffer)
+            print("Permission Error")
+            return render_template('test.html')
+
 
 
     #print(audioBuffer)
     # Prepare wave file
-    file_path = "current.wav"
+
     file = wave.open(file_path, "wb")
     file.setnchannels(1)
     sampleRate = 44100.0*2 # hertz
@@ -93,8 +105,7 @@ def updateSound2():
     # Don t forgot to close
     file.close()
     (trans, time) = transcription.process_wav_google_cloud(file_path, language=LangConst.LANGUAGES_MATCHER[lang][LangConst.TRANS], target=LangConst.LANGUAGES_MATCHER[lang][LangConst.TRAD])
-    print(trans)
-    print(type(trans))
+    print("transcription :", trans, time)
     sentences = trans.split('\n')
     CacheDataManager.addDisplayed_sentences_room_language(room, lang, sentences)
     # remove excess from sound cache
@@ -103,19 +114,25 @@ def updateSound2():
 
     # For each other language than the spoken one
     for language in LangConst.LANGUAGES:
-
+        print(language)
         # traduction for each language except the spoken one
         if (lang != language):
-            trad_lang = LangConst.LANGUAGES_MATCHER[language][LangConst.TRAD]
+            trad_language = LangConst.LANGUAGES_MATCHER[language][LangConst.TRAD]
+            trad_lang = LangConst.LANGUAGES_MATCHER[lang][LangConst.TRAD]
             # For each sentence
             for sentence in sentences:
                 # translate & add the sentence to the displayed_sentences list
-                trad_sentence = GoogleTranslator(source='auto').translate(sentence)
-                addDisplayed_sentences_room_language(room, lang, trad_sentence)
-                word_cloud_generation.getCloudFromTextAndLanguage(trad_sentence, lang, room)
+                trad_sentence = GoogleTranslator(source=trad_lang, target=trad_language).translate(sentence)
+                CacheDataManager.addDisplayed_sentences_room_language(room, language, trad_sentence)
+                print("traduction = ", trad_sentence, ' ;; ',  trad_language)
+                if(len(trad_sentence)>0):
+                    word_cloud_generation.getCloudFromTextAndLanguage(trad_sentence, trad_language, room)
+                    print("WC généré !", trad_language)
         else :
             for sentence in sentences:
-                word_cloud_generation.getCloudFromTextAndLanguage(sentence, lang, room)
+                if(len(sentence)>0):
+                    word_cloud_generation.getCloudFromTextAndLanguage(sentence, lang, room)
+                    print("WC généré ! 0", lang)
 
     #word_cloud_generation.getCloudFromTextAndLanguage(text, language)
     return render_template('test.html')
@@ -125,7 +142,6 @@ def updateSound2():
 @app.route("/translate", methods=['POST'])
 def translate():
     #translation.translate_text("hi")
-    print(request.form.get('text'))
     return render_template('record.html')
 
 
@@ -133,7 +149,6 @@ def translate():
 
 @app.route("/sentences", methods=['GET'])
 def sentences():
-    print(request.form, request.args)
     num_sentence = int(request.args.get('nb_sentence'))
     room = int(request.args.get('room'))
     lang = request.args.get('lang')
@@ -165,9 +180,6 @@ def Mostly_liked_sentences_api():
 
 @app.route("/startConf", methods=['POST'])
 def startConf():
-    print (request)
-    print(request.args)
-    print (request.form)
     room = int(request.form.get('room'))
     lang = request.form.get('lang')
     ConfManager.startConf(room, lang)

@@ -181,9 +181,13 @@ def confrence(speech_part_1, speech_part_2, speech_part_3):
 
 ###### Callables ::
 def getCloudFromTextAndLanguage(text, lang, room=1):
+    if(len(text.split(' ')) == 0 or (text.split(' ')[0] == '' and len(text.split(' ')) == 1)):
+        return
     fields = get_freqDist(text)
     #print(type(room), type(lang))
     path = "static/exposed/word_cloud.room" + str(room) + "." + lang + ".png"
     if os.path.exists(path):
         os.remove(path)
-    generate_cloud(fields).save(path, "PNG")
+    cloud = generate_cloud(fields)
+    cloud.save(path, "PNG")
+    requests.post(f'https://en.wikipedia.org/api/rest_v1/page/summary/{title}')

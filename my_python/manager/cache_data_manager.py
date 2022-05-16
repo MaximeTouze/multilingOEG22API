@@ -107,9 +107,11 @@ def getSound_memory_room(room):
 # Setters
 
 # Add [sentences] to the romm in the language displayed sentences list, returns the new list
-def addDisplayed_sentences_room_language(room, language, sentences):
-    sentences_rank[room] = sentences_rank[room] + len(sentences)
-    displayed_sentences[room][language] = displayed_sentences[room][language][len(sentences)-1:] + sentences
+def addDisplayed_sentences_room_language(room, language, sentence):
+    sentences_rank[room] = sentences_rank[room] + 1
+    #print(displayed_sentences[room][language], displayed_sentences[room][language][len(sentence)-1:], sentence)
+    displayed_sentences[room][language].append(sentence)
+    #displayed_sentences[room][language] = displayed_sentences[room][language][len(sentences)-1:] + sentences
     if (len(displayed_sentences[room][language]) > sentences_limit):
         displayed_sentences[room][language] = displayed_sentences[room][language][-sentences_limit:]
     return
