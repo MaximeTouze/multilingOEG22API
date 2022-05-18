@@ -15,9 +15,11 @@ import my_python.api.conf_manager as ConfManager
 import my_python.manager.cache_data_manager as CacheDataManager
 import my_python.const.lang_const as LangConst
 from deep_translator import GoogleTranslator
+import my_python.api.API_links as API_Links
 
-API_BACKEND_LINK = "http://127.0.0.1:88"
-#API_BACKEND_LINK = "https://multiling-oeg.univ-nantes.fr/"
+import base64
+
+
 
 app = Flask(__name__, template_folder='templates')
 app.debug = True
@@ -176,19 +178,26 @@ def UnlikeSentence():
 @app.route("/mostly_liked_sentences", methods=['GET'])
 def Mostly_liked_sentences_api():
     room = int(request.args.get('room'))
-    return requests.post(API_BACKEND_LINK, data = request)
+    conf_id = ConfManager.getCurrentConfID()
+    print(conf_id)
+    response = requests.post(API_Links.API_BACKEND_LINK, data = {'room': room, 'conf_id': conf_id})
+    print(response)
+    return response
 
 @app.route("/startConf", methods=['POST'])
 def startConf():
     room = int(request.form.get('room'))
     lang = request.form.get('lang')
-    ConfManager.startConf(room, lang)
+    conf_id = request.form.get('conf_id')
+    ConfManager.startConf(room, lang, conf_id)
     return render_template('RecorderFrontTesting.html')
 
 @app.route("/stopConf", methods=['POST'])
 def stopConf():
     room = int(request.form.get('room'))
+    print("stop here")
     ConfManager.setConf_questions_state(room)
+    print("stop there")
     return render_template('RecorderFrontTesting.html')
 
 @app.route("/endConf", methods=['POST'])
