@@ -12,11 +12,18 @@ import random as Random
 import re
 import math
 
+import my_python.api.API_links as API_Links
+
 import os
 
 from wordcloud import WordCloud, get_single_color_func
 
 import requests
+import base64
+import json
+
+import cv2
+
 
 ### CLOUD GENERATION METHODS
 
@@ -183,11 +190,39 @@ def confrence(speech_part_1, speech_part_2, speech_part_3):
 def getCloudFromTextAndLanguage(text, lang, room=1):
     if(len(text.split(' ')) == 0 or (text.split(' ')[0] == '' and len(text.split(' ')) == 1)):
         return
+    print('getCloudFromTextAndLanguage', text, text.split(' '))
     fields = get_freqDist(text)
     #print(type(room), type(lang))
     path = "static/exposed/word_cloud.room" + str(room) + "." + lang + ".png"
     if os.path.exists(path):
         os.remove(path)
+
     cloud = generate_cloud(fields)
     cloud.save(path, "PNG")
-    requests.post(f'https://en.wikipedia.org/api/rest_v1/page/summary/{title}')
+
+    # prepare headers for http request
+    #content_type = 'image/jpeg'
+    #headers = {'content-type': content_type}
+
+    cloud = open(path, 'rb')
+
+    #cloud = open(f'./conference_{conf_id}/cloud_{language}.png', 'rb')
+    encoded = base64.b64encode(cloud.read())
+    images[lang] = encoded
+
+    #print(images)
+    response = requests.post(API_BACKEND_LINK + "/updateWordCloud", data = images)
+    #print(r)
+
+    # encode image as jpeg
+    #_, img_encoded = cv2.imencode('.jpg', img)
+    # send http request with image and receive response
+    #response = requests.post(API_Links.API_BACKEND_LINK + '/updateWordCloud', data=img, headers=headers)
+
+    #with open(path, 'rb') as img:
+    #    string = base64.b64encode(img.read()).decode('utf-8')
+
+    #json_string = json.dumps({'WC':string})
+
+    #datas = {'name': "word_cloud.room" + str(room) + "." + lang + ".png"}
+    #requests.post(API_Links.API_BACKEND_LINK + '/updateWordCloud', data = datas, json=json_string)

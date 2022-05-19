@@ -12,18 +12,18 @@ div.cell {
 }
 
 div.basic_color_cell  {
-  background: #2C2D3A;
-  border: 1px solid white;
-  color: white;
+  background: white;
+  border: 1px solid #2C2D3A;
+  color: #2C2D3A;
   opacity: 0.9;
   vertical-align: center;
   text-align: center;
 }
 
 div.selected_color_cell  {
-  background: #E1F566;
-  border: 1px solid #E1F566;
-  color: #2C2D3A;
+  background: #2C2D3A;
+  border: 1px solid #2C2D3A;
+  color: white;
   opacity: 0.9;
 
     text-align: center;
@@ -37,9 +37,9 @@ div.selected_color_cell  {
 }
 
 .sentence-separator{
-  color: white;
+  color: #2C2D3A;
 }
 
 .my-body {
-  background:#2C2D3A;
+  background:white;
 }

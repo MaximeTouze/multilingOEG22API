@@ -8,15 +8,16 @@
     <meta http-equiv="cache-control" content="no-cache, must-revalidate">
 
     <title>Recorder Look</title>
+    <link rel="icon" type="image/x-icon" href="http://multiling-oeg.univ-nantes.fr/static/exposed/favicon.png">
 
     <!-- Stylesheets -->
     <link rel= "stylesheet" type= "text/css" href= "{{ url_for('static',filename='css/recorder.css') }}">
-    <link rel= "stylesheet" type= "text/css" href= "{{ url_for('static',filename='css/common.css') }}">
+    <link rel= "stylesheet" type= "text/css" href= "{{ url_for('static',filename='css/common_white.css') }}">
 
   </head>
 
 
-  <body style="background:#2C2D3A">
+  <body class="my-body">
     <div id="grid-container" class="grid-container">
       <div class="grid-column-presenting">
         <div id = "displayPanel" class="cell basic_color_cell">
@@ -31,12 +32,17 @@
              <option valeur="ara">ara</option>
              <option valeur="esp">esp</option>
           </select>
+          <br/>
           Room slection :
           <select name="room">
              <option valeur="1">1</option>
              <option valeur="2">2</option>
              <option valeur="3">3</option>
           </select>
+          <br/>
+          Conf id :
+          <input type="text" id="conf_id" name="conf_id">
+          <br>
           <button type="button" name="to_confrence" onclick="StartConfrence();">Start confrence</button>
         </div>
 
@@ -57,7 +63,8 @@
     <script type="text/javascript" src="{{ url_for('static',filename='js/recorder-working.js') }}"></script>
     <script type="text/javascript" src="{{ url_for('static',filename='js/tools/display_tools.js') }}"></script>
     <script type="text/javascript" src="{{ url_for('static',filename='js/tools/recorder_forms.js') }}"></script>
-
+    <script type="text/javascript">
+    </script>
 
   </footer>
 </html>

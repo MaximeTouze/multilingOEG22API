@@ -1,12 +1,14 @@
 // Show the most liked sentences
 function showMostlyLikedSentences() {
   room = getValFromRoomForm();
+  conf_id = getValFromConfIDForm();
   console.log(room);
   $.ajax({
     type:'GET',
     url:'/mostly_liked_sentences',
     data:{
-      'room':room
+      'room':room,
+      'conf_id':conf_id
     },
     success:function(response)
     {

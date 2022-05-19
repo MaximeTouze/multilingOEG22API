@@ -30,5 +30,5 @@ let compteur = 0;
 let continueUpdate = true;
 
 // the link to the API back-end
-const API_BACKEND_LINK = "http://127.0.0.1:88/static/exposed/"
-//const API_BACKEND_LINK = "https://multiling-oeg.univ-nantes.fr/static/exposed"
+//const API_BACKEND_LINK = "http://127.0.0.1:88/static/exposed/"
+const API_BACKEND_LINK = "https://multiling-oeg.univ-nantes.fr/static/exposed/"

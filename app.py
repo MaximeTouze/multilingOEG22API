@@ -179,10 +179,12 @@ def UnlikeSentence():
 def Mostly_liked_sentences_api():
     room = int(request.args.get('room'))
     conf_id = ConfManager.getCurrentConfID()
-    print(conf_id)
-    response = requests.post(API_Links.API_BACKEND_LINK, data = {'room': room, 'conf_id': conf_id})
-    print(response)
-    return response
+    print("conf id = ", conf_id)
+    response = requests.get(API_Links.API_BACKEND_LINK, data = {'room': room, 'conf_id': conf_id})
+    print("code:: ", response.status_code)
+    result = response.json()
+    print("result", result)
+    return result
 
 @app.route("/startConf", methods=['POST'])
 def startConf():

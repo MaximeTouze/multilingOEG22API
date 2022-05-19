@@ -8,7 +8,9 @@ function StartConfrence () {
   console.log("starting confrence");
   id_conf ++;
   //setup micro
-  RecorderInit();
+  //RecorderInit();
+  //updating values
+  initFormValues();
   //startRecording();
   ChangeConfStatus('/startConf');
   //changing the display
@@ -28,7 +30,7 @@ function ConferenceDisplayModOn () {
 // Turns the conference into questions state
 function EndConfrence () {
   // Microhone stops
-  stopRecording();
+  //stopRecording();
 
   ChangeConfStatus('/stopConf');
 
@@ -47,20 +49,22 @@ function SetupConfrence () {
   isDisplayModOn = false;
   continueUpdate = false;
   var elt = document.getElementById('grid-container');
-  elt.innerHTML = ' <div class="grid-column-presenting"> <div id = "displayPanel" class="cell basic_color_cell display"> Display part </div> <div id="param-cell" class="cell basic_color_cell"> Spoken language slection <select name="lang"> <option valeur="eng">eng</option> <option valeur="fr">fr</option> <option valeur="ara">ara</option <option valeur="esp">esp</option> </select> Room slection <select name="romm"> <option valeur="1">1</option> <option valeur="2">2</option> <option valeur="3">3</option> </select> <button type="button" name="to_confrence" onclick="StartConfrence();">Start confrence</button> </div> </div> ';
+  elt.innerHTML = ' <div class="grid-column-presenting"> <div id = "displayPanel" class="cell basic_color_cell display"> Display part </div> <div id="param-cell" class="cell basic_color_cell"> Spoken language slection <select name="lang"> <option valeur="eng">eng</option> <option valeur="fr">fr</option> <option valeur="ara">ara</option <option valeur="esp">esp</option>  <br> </select> Room slection <select name="romm"> <option valeur="1">1</option> <option valeur="2">2</option> <option valeur="3">3</option> </select>Conf id :<input type="text" id="conf_id" name="conf_id"> <br> <button type="button" name="to_confrence" onclick="StartConfrence();">Start confrence</button> </div> </div> ';
 
 }
 
 function ChangeConfStatus (link) {
   room = getValFromRoomForm();
   lang = getValFromLangForm();
-  console.log(room, lang);
+  conf_id = getValFromConfIDForm();
+  console.log(room, lang, conf_id);
   $.ajax({
     type:'POST',
     url:link,
     data:{
       'room': room,
-      'lang': lang
+      'lang': lang,
+      'conf_id': conf_id
     },
     success:function(response){}
  });
